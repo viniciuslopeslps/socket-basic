@@ -7,8 +7,8 @@ var io = require("socket.io")(http); //funciona como o app
 app.use(express.static(__dirname + "/public"));
 
 // on = permite você escultar por eventos
-io.on("connections", function(){ //esculta o evendo de get connection do client
-	console.log("User connected via socket.io");
+io.on("connection", function(){ //esculta o evendo de get connection do client (app.js)
+	console.log("User connected in backend via socket.io");
 }); 
 
 app.get("/", function(req, res){
