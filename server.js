@@ -7,8 +7,18 @@ var io = require("socket.io")(http); //funciona como o app
 app.use(express.static(__dirname + "/public"));
 
 // on = permite você escultar por eventos
-io.on("connection", function(){ //esculta o evendo de get connection do client (app.js)
+io.on("connection", function(socket){ //esculta o evendo de get connection do client (app.js)
 	console.log("User connected in backend via socket.io");
+    
+    socket.on("message", function(message){
+        console.log("Message received: " + message.text);
+        socket.broadcast.emit("message", message); //enviamos para todos os browsers conectador com essse servidor
+    });
+    
+    //coloca o que voce quer emitir para quem está escultando o server
+    socket.emit("message", {
+        text: "Welcome to the chat application!"
+    }); 
 }); 
 
 app.get("/", function(req, res){
