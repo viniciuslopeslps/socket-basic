@@ -5,7 +5,9 @@ socket.on("connect", function(){ //envia o evento de conexao para o server (conn
 });
 
 socket.on("message", function(message){
-    console.log("Receving data in frontend: " + message.text);
+    console.log("new message in frontend: " + message.text);
+    
+    $(".message").append("<p>" + message.text + "</p>");
 });
 
 

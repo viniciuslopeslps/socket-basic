@@ -12,7 +12,8 @@ io.on("connection", function(socket){ //esculta o evendo de get connection do cl
     
     socket.on("message", function(message){
         console.log("Message received: " + message.text);
-        socket.broadcast.emit("message", message); //enviamos para todos os browsers conectador com essse servidor
+        
+        io.emit("message", message); //enviamos para todos os browsers conectador com essse servidor
     });
     
     //coloca o que voce quer emitir para quem está escultando o server
