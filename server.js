@@ -3,6 +3,7 @@ var express = require("express");
 var app = express();
 var http = require("http").Server(app);
 var io = require("socket.io")(http); //funciona como o app
+var moment = require("moment");
 
 app.use(express.static(__dirname + "/public"));
 
@@ -12,13 +13,14 @@ io.on("connection", function(socket){ //esculta o evendo de get connection do cl
     
     socket.on("message", function(message){
         console.log("Message received: " + message.text);
-        
+        message.timestamp = moment().valueOf();
         io.emit("message", message); //enviamos para todos os browsers conectador com essse servidor
     });
     
     //coloca o que voce quer emitir para quem está escultando o server
     socket.emit("message", {
-        text: "Welcome to the chat application!"
+        text: "Welcome to the chat application!",
+        timestamp: moment().valueOf()
     }); 
 }); 
 
