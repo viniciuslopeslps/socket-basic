@@ -15,6 +15,9 @@ socket.on("message", function(message){
 });
 
 
+
+$(".room-title").text(room);
+
 //recebe evendo de submit de mensagem
 var $form = jQuery("#message-form");
 
