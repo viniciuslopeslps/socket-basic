@@ -19,6 +19,7 @@ io.on("connection", function(socket){ //esculta o evendo de get connection do cl
     
     //coloca o que voce quer emitir para quem está escultando o server
     socket.emit("message", {
+        name: "System",
         text: "Welcome to the chat application!",
         timestamp: moment().valueOf()
     }); 
