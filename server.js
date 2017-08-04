@@ -9,14 +9,43 @@ app.use(express.static(__dirname + "/public"));
 
 var clientInfo = {};
 
+
+//pega os usuarios na sala e envia para o socket
+function sendCurrentUsers(socket){
+    var info = clientInfo[socket.id];
+    var users = [];
+
+    if(info === undefined){
+        return;
+    }
+    Object.keys(clientInfo).forEach( function(socketId) {
+        var userInfo = clientInfo[socketId];
+
+        if(info.room === userInfo.room){
+            users.push(userInfo.name);
+        }
+    });
+
+
+    socket.emit("message", {
+        name: 'System',
+        text: 'Current users: ' + users.join(", "), 
+        timestamp: moment().valueOf()
+    });
+}
+
 // on = permite você escultar por eventos
 io.on("connection", function(socket){ //esculta o evendo de get connection do client (app.js)
 	console.log("User connected in backend via socket.io");
     
     socket.on("message", function(message){
         console.log("Message received: " + message.text);
-        message.timestamp = moment().valueOf();
-        io.to(clientInfo[socket.id].room).emit("message", message); //enviamos para todos os browsers conectador com essse servidor
+        if(message.text === "@currentusers"){
+            sendCurrentUsers(socket);
+        }else{
+            message.timestamp = moment().valueOf();
+            io.to(clientInfo[socket.id].room).emit("message", message); //enviamos para todos os browsers conectador com essse servidor
+        }
     });
     
     //coloca o que voce quer emitir para quem está escultando o server
