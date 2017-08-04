@@ -4,6 +4,11 @@ var room = getQueryVariable("room");
 
 socket.on("connect", function(){ //envia o evento de conexao para o server (connections)
     console.log("Connected to socket.io server in frontend!");
+
+    socket.emit("joinRoom",{
+    	name: name,
+    	room: room
+    });
 });
 
 socket.on("message", function(message){

@@ -7,6 +7,8 @@ var moment = require("moment");
 
 app.use(express.static(__dirname + "/public"));
 
+var clientInfo = {};
+
 // on = permite você escultar por eventos
 io.on("connection", function(socket){ //esculta o evendo de get connection do client (app.js)
 	console.log("User connected in backend via socket.io");
@@ -14,7 +16,7 @@ io.on("connection", function(socket){ //esculta o evendo de get connection do cl
     socket.on("message", function(message){
         console.log("Message received: " + message.text);
         message.timestamp = moment().valueOf();
-        io.emit("message", message); //enviamos para todos os browsers conectador com essse servidor
+        io.to(clientInfo[socket.id].room).emit("message", message); //enviamos para todos os browsers conectador com essse servidor
     });
     
     //coloca o que voce quer emitir para quem está escultando o server
@@ -23,6 +25,18 @@ io.on("connection", function(socket){ //esculta o evendo de get connection do cl
         text: "Welcome to the chat application!",
         timestamp: moment().valueOf()
     }); 
+
+    socket.on("joinRoom", function(request){
+        clientInfo[socket.id] = request;
+
+        socket.join(request.room); //isso já existe no socket.io
+        socket.broadcast.to(request.room).emit("message", {
+            name: "System",
+            text: request.name + " has joined!",
+            timestamp: moment().valueOf()
+        });
+
+    });
 }); 
 
 app.get("/", function(req, res){
