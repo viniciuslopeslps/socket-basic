@@ -37,6 +37,21 @@ io.on("connection", function(socket){ //esculta o evendo de get connection do cl
         });
 
     });
+    
+    socket.on("disconnect", function(){
+		var userData = clientInfo[socket.id];
+        console.log("User " + userData.name+ " has left!");
+         if(userData !== undefined){
+             socket.leave(userData.room);
+             
+             io.to(userData.room).emit("message", {
+                name: "System",
+                text: userData.name + " has left!",
+                timestamp: moment().valueOf()
+             });
+             delete clientInfo[socket.io];
+         }
+    });
 }); 
 
 app.get("/", function(req, res){
