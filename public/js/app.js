@@ -14,9 +14,12 @@ socket.on("connect", function(){ //envia o evento de conexao para o server (conn
 socket.on("message", function(message){
     console.log("new message in frontend: " + message.text);
     var momentTimestamp = moment.utc(message.timestamp);
-    $message = $(".message");
-    $message.append("<p><strong>" + momentTimestamp.format("h:mm a") + " - " + message.name + "</strong></p>");
-    $message.append("<p> " + message.text + " </p>");
+    var $messages = jQuery('.messages');
+	var $message = jQuery('<li class="list-group-item"></li>');
+
+	$message.append('<p><strong>' + momentTimestamp.local().format('h:mm a') + " - " + message.name + '</strong></p>');
+	$message.append('<p>' + message.text + '</p>');
+	$messages.append($message);
 });
 
 
@@ -24,7 +27,7 @@ socket.on("message", function(message){
 $(".room-title").text(room);
 
 //recebe evendo de submit de mensagem
-var $form = jQuery("#message-form");
+var $form = $("#message-form");
 
 $form.on("submit", function(event){
 	event.preventDefault();

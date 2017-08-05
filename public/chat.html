@@ -3,18 +3,33 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Socket.io basics</title>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css">
 	</head>
 	<body>
-		<h2>Chat!</h2>
-        <a href="/">Change settings</a>
-        <h2 class="room-title"></h2>
-        <div class="message">
-            
-        </div>
-		<form id="message-form">
-		 	<input id="message-input" type="text" name="message"/>
-		 	<input type="submit">
-		</form>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 well">
+		        	<a class="previous" href="/"><span aria-hidden="true">&larr;</span> Change settings</a>
+		        	<h3>Chat: <span class="label label-default room-title"></span></h3>
+		        	<ul class="list-group messages">
+		           	 
+		        	</ul>
+					<form id="message-form">
+						<div class="form-group">
+								<div class="input-group">
+								<span class="input-group-addon">
+									<i class="glyphicon glyphicon-comment"></i>
+								</span>
+								<input id="message-input" class="form-control" type="text" placeholder="Room" name="message"/>
+							</div>
+						</div>
+			 			<button type="submit" class="btn btn-primary btn-block">Send!</button>			
+					</form>
+				</div>
+			</div>
+		</div>
         <script src="/js/jquery-2.1.4.min.js"></script>
 		<script src="/js/socket.io-1.3.7.js"></script>
         <script src="/js/moment-2.18.1.js"></script>
